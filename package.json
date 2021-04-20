@@ -1,0 +1,24 @@
+{
+  "name": "simple_auth_api",
+  "version": "1.0.0",
+  "description": "A Simple Auth API",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/omernes/simple_auth_api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/omernes/simple_auth_api/issues"
+  },
+  "homepage": "https://github.com/omernes/simple_auth_api#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-jwt": "^6.0.0",
+    "mongoose": "^5.12.5"
+  }
+}
