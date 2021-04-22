@@ -1,19 +1,23 @@
 const expressJwt = require('express-jwt')
 
-const userController = require('./controllers/user.controller')
-const dataController = require('./controllers/data.controller')
+const userController = require('./controllers/user')
+const dataController = require('./controllers/data')
 
-function authenticate(req, res, next) {
-    console.log('authnticated')
-    next()
-}
+const config = require('./config')
 
 
 module.exports = function(app) {
-    app.get('/login', userController.login);
-    app.get('/logout', userController.logout);
-    app.post('/register', userController.register);
+    app.use(expressJwt({ secret: config.TOKEN_SECRET, algorithms: ['HS256'] }).unless({
+        path: [
+            '/login',
+            '/register'
+        ]
+    }))
 
-    app.get('/data/get', authenticate, dataController.get)
-    app.post('/data/add',  authenticate, dataController.add)
+    app.post('/register', userController.register);
+    app.post('/login', userController.login);
+    app.get('/logout', userController.logout);
+    
+    app.get('/data/get', dataController.get)
+    app.post('/data/add',  dataController.add)
 }
