@@ -14,7 +14,7 @@ mongoose.connection.on('error', function(err) {
 
 require('./routes') (app)
 
-const PORT = process.env.PORT || config.PORT;
+const PORT = config.PORT;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);
 });
