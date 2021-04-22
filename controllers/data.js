@@ -12,6 +12,9 @@ function get(req, res, next) {
 }
 
 function add(req, res, next) {
+    if (req.user.role < 5) {
+        res.status(403).json({ 'reason': 'Insuffecient privileges to perform the action.' })
+    }
     dataSerice.create(req.body)
         .then(() => res.json())
         .catch(err => next(err))
