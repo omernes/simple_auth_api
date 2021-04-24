@@ -18,7 +18,7 @@ function add(req, res, next) {
     if (req.user.role < 5) {
         var err = new Error('Insuffecient privileges to perform the action.');
         err.statusCode = 403
-        next(err);
+        throw err;
     }
     const {procedure, timestamp, value} = req.body;
     dataSerice.create(procedure, timestamp, value)
