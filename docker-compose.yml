@@ -10,6 +10,7 @@ services:
         environment:
             - PORT=8080
             - MONGO_URI=mongodb://mongo:27017/simple_auth
+            - TOKEN_SECRET=some-very-complicated-secret
 
     mongo:
         image: mongo

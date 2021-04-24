@@ -1,4 +1,6 @@
-const userService = require('../services/user')
+const blacklist = require('../middleware/blacklist')
+const userService = require('../services/user');
+const config = require('../config');
 
 module.exports = {
     login,
@@ -7,17 +9,28 @@ module.exports = {
 };
 
 function login(req, res, next) {
-    userService.authenticate(req.body)
-        .then(user => user ? res.json(user) : res.status(400).json({ message: 'Username or password is incorrect' }))
+    const { name, password } = req.body;
+    userService.authenticate(name, password)
+        .then(user => {
+            if (user) res.json(user)
+            else {
+                var err = new Error("Username or password in incorrect");
+                err.statusCode = 400;
+                next(err);
+            }
+        })
         .catch(err => next(err));
 }
 
 function logout(req, res, next) {
-    res.json({ message: "logged out :)" });
+    // blacklistJwt.revoke(req.user);
+    blacklist.revokeToken(req.user)
+    res.redirect(config.LANDING_PAGE_URL);
 }
 
 function register(req, res, next) {
-    userService.create(req.body)
+    const { name, email, password, role } = req.body;
+    userService.create(name, email, password, role)
         .then(() => res.json())
         .catch(err => next(err))
 }
